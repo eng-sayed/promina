@@ -12,7 +12,7 @@ class AuthRepository {
     required String password,
   }) async {
     final response = await DioHelper.postData(context,
-        url: EndPoins.login,
+        path: EndPoins.login,
         loading: true,
         isForm: true,
         body: {

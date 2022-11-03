@@ -19,9 +19,6 @@ class DioHelper {
         },
         baseUrl: Utiles.apiUrl,
         receiveDataWhenStatusError: true,
-        // connectTimeout: 30000,
-        // receiveTimeout: 30000,
-        // sendTimeout: 30000
       ),
     )..interceptors.add(
         LogInterceptor(
@@ -33,7 +30,7 @@ class DioHelper {
 
   static Future<Response?> postData(
     BuildContext context, {
-    required String url,
+    required String path,
     Map<String, dynamic>? body,
     Map<String, dynamic>? query,
     String? token,
@@ -41,24 +38,11 @@ class DioHelper {
     bool loading = false,
     bool isForm = false,
   }) async {
-    // mydio.options.headers = {
-    //   'Content-Type': 'application/json',
-    //   'Accept': 'application/json',
-    //   'Authorization': 'Bearer $token',
-    //   "X-WC-Store-API-Nonce": Utiles.x_WC_Store
-    // };
-    // if (token == null) {
-    //   mydio.options.headers = {
-    //     'Content-Type': 'application/json',
-    //     'Accept': 'application/json',
-    //     "X-WC-Store-API-Nonce": Utiles.x_WC_Store
-    //   };
-    // }
     try {
       if (loading) {
         MyLoading.show(context);
       }
-      final response = await mydio.post(/*(base ?? baseUrl) +*/ url,
+      final response = await mydio.post(path,
           queryParameters: query,
           data: isForm ? FormData.fromMap(body ?? {}) : body);
       if (loading) {
@@ -72,82 +56,9 @@ class DioHelper {
     }
   }
 
-  // static Future<Response?> putData(
-  //   BuildContext context, {
-  //   required String url,
-  //   Map<String, dynamic>? body,
-  //   Map<String, dynamic>? query,
-  //   String? token,
-  //   String? base,
-  //   bool loading = false,
-  //   bool isForm = false,
-  // }) async {
-  //   mydio.options.headers = {
-  //     'Content-Type': 'application/json',
-  //     'Accept': 'application/json',
-  //     'Authorization': 'Bearer $token',
-  //     "X-WC-Store-API-Nonce": Utiles.x_WC_Store
-  //   };
-  //   if (token == null) {
-  //     mydio.options.headers = {
-  //       'Content-Type': 'application/json',
-  //       'Accept': 'application/json',
-  //       "X-WC-Store-API-Nonce": Utiles.x_WC_Store
-  //     };
-  //   }
-  //   try {
-  //     if (loading) {
-  //       MyLoading.show(context);
-  //     }
-  //     final response = await mydio.put((base ?? baseUrl) + url,
-  //         queryParameters: query,
-  //         data: isForm ? FormData.fromMap(body ?? {}) : body);
-  //     if (loading) {
-  //       MyLoading.dismis(context);
-  //     }
-  //     return response;
-  //   } on DioError catch (e) {
-  //     getDioError(e: e, context: context);
-  //   } catch (e) {
-  //     return null;
-  //   }
-  // }
-
-  // static Future<Response?> deleteData(
-  //   BuildContext context, {
-  //   required String url,
-  //   Map<String, dynamic>? query,
-  //   String? token,
-  //   String? base,
-  //   bool loading = false,
-  // }) async {
-  //   mydio.options.headers = {
-  //     'Content-Type': 'application/json',
-  //     'Accept': 'application/json',
-  //     'Authorization': 'Bearer $token',
-  //     "X-WC-Store-API-Nonce": Utiles.x_WC_Store
-  //   };
-
-  //   try {
-  //     if (loading) {
-  //       MyLoading.show(context);
-  //     }
-  //     final response =
-  //         await mydio.delete((base ?? baseUrl) + url, queryParameters: query);
-  //     if (loading) {
-  //       MyLoading.dismis(context);
-  //     }
-  //     return response;
-  //   } on DioError catch (e) {
-  //     getDioError(e: e, context: context);
-  //   } catch (e) {
-  //     return null;
-  //   }
-  // }
-
   static Future<Response?> getData(
     BuildContext context, {
-    required String url,
+    required String path,
     Map<String, dynamic>? query,
     String? token,
     String? base,
@@ -158,20 +69,12 @@ class DioHelper {
       'Accept': 'application/json',
       'Authorization': 'Bearer $token',
     };
-    // if (token == null) {
-    //   mydio.options.headers = {
-    //     'Content-Type': 'application/json',
-    //     'Accept': 'application/json',
-    //     "X-WC-Store-API-Nonce": Utiles.x_WC_Store
-    //   };
-    // }
 
     try {
       if (loading) {
         MyLoading.show(context);
       }
-      final response = await mydio.get(/*((base ?? baseUrl)) +*/ url,
-          queryParameters: query);
+      final response = await mydio.get(path, queryParameters: query);
       if (loading) {
         MyLoading.dismis(context);
       }

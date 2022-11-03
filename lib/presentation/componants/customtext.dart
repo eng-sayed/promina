@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:promina/core/utils/responsive.dart';
 
 import '../../core/themes/colors.dart';
 

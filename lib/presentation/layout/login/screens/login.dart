@@ -6,7 +6,7 @@ import 'package:promina/presentation/componants/customtext.dart';
 import '../../../../core/utils/validation.dart';
 import '../../../componants/default_button.dart';
 import '../../../componants/glass_moriphism.dart';
-import '../../../componants/login_text_failed.dart';
+import '../../../componants/default_text_failed.dart';
 import '../cubit/auth_cubit.dart';
 import '../cubit/auth_state.dart';
 
@@ -21,7 +21,7 @@ class _LoginState extends State<Login> {
   @override
   void initState() {
     final cubit = AuthCubit.get(context);
-    cubit.getToken(context);
+    cubit.getUserData(context);
     super.initState();
   }
 
@@ -40,38 +40,36 @@ class _LoginState extends State<Login> {
             body: Stack(
               children: [
                 Image.asset(
-                  'assets/images/login.png',
+                  'assets/images/background.png',
                   width: double.infinity,
                   height: double.infinity,
                   fit: BoxFit.fill,
                 ),
-                if (!cubit.isLogin)
-                  Positioned(
-                      top: 70,
-                      left: 60,
-                      child: Image.asset('assets/images/cam.png')),
-                if (!cubit.isLogin)
-                  Form(
-                    key: _formKey,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: 180,
-                          // height: 100,
-                          child: CustomText(
-                            'My Gallery',
-                            textStyleEnum: TextStyleEnum.title,
-                            maxLines: 2,
-                            fontsize: 50,
-                          ),
+                Positioned(
+                    top: 70,
+                    left: 60,
+                    child: Image.asset('assets/images/cam.png')),
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 180,
+                        // height: 100,
+                        child: CustomText(
+                          'My Gallery',
+                          textStyleEnum: TextStyleEnum.title,
+                          maxLines: 2,
+                          fontsize: 50,
                         ),
+                      ),
+                      if (!cubit.isLogin)
                         Center(
                           child: GlassMorphism(
+                            width: 388,
+                            height: 345,
                             child: Container(
-                              //padding: EdgeInsets.all(10),
-                              width: 388,
-                              height: 345,
                               child: Column(
                                 children: [
                                   Spacer(),
@@ -89,26 +87,22 @@ class _LoginState extends State<Login> {
                                   Spacer(),
                                   DefaultTextField(
                                     hintText: 'Password',
-                                    keyboardType: TextInputType.emailAddress,
+                                    keyboardType: TextInputType.visiblePassword,
                                     validate: Validation().passwordValidation,
                                     onChange: (s) {
                                       password = s;
                                     },
                                   ),
                                   Spacer(),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 20),
-                                    child: defaultButton(
-                                      text: 'SUBMIT',
-                                      function: () {
-                                        if (_formKey.currentState!.validate()) {
-                                          cubit.login(context,
-                                              username: email!,
-                                              password: password!);
-                                        }
-                                      },
-                                    ),
+                                  defaultButton(
+                                    text: 'SUBMIT',
+                                    function: () {
+                                      if (_formKey.currentState!.validate()) {
+                                        cubit.login(context,
+                                            username: email!,
+                                            password: password!);
+                                      }
+                                    },
                                   ),
                                   Spacer(),
                                 ],
@@ -118,9 +112,9 @@ class _LoginState extends State<Login> {
                             end: 0.07,
                           ),
                         ),
-                      ],
-                    ),
-                  )
+                    ],
+                  ),
+                )
               ],
             ),
           );

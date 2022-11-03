@@ -5,11 +5,15 @@ class GlassMorphism extends StatelessWidget {
   final Widget child;
   final double start;
   final double end;
+  final double width;
+  final double height;
   const GlassMorphism({
     Key? key,
     required this.child,
     required this.start,
     required this.end,
+    required this.width,
+    required this.height,
   }) : super(key: key);
 
   @override
@@ -18,6 +22,8 @@ class GlassMorphism extends StatelessWidget {
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
         child: Container(
+          width: width,
+          height: height,
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [

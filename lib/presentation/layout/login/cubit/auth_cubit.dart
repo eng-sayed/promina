@@ -15,7 +15,7 @@ class AuthCubit extends Cubit<AuthStates> {
   AuthCubit() : super(AuthInitial());
   static AuthCubit get(context) => BlocProvider.of(context);
   bool isLogin = false;
-  saveToken() {
+  saveUserData() {
     CacheHelper.saveData(key: "token", value: Utiles.token);
     CacheHelper.saveData(key: "name", value: Utiles.name);
   }
@@ -25,7 +25,7 @@ class AuthCubit extends Cubit<AuthStates> {
     required String username,
     required String password,
   }) async {
-    // emit(LoginLoadingState());
+    emit(LoginLoadingState());
     final response = await AuthRepository.login(
       context: context,
       username: username,
@@ -33,7 +33,7 @@ class AuthCubit extends Cubit<AuthStates> {
     );
 
     if (response != null) {
-      saveToken();
+      saveUserData();
       navigateReplacement(context: context, route: GalleryScreen());
 
       emit(LoginSuccessState());
@@ -42,7 +42,7 @@ class AuthCubit extends Cubit<AuthStates> {
     }
   }
 
-  getToken(context) async {
+  getUserData(context) async {
     Utiles.token = await CacheHelper.loadData(key: "token") ?? "";
     Utiles.name = CacheHelper.loadData(key: "name") ?? "";
     if (Utiles.token == '') {
@@ -51,6 +51,5 @@ class AuthCubit extends Cubit<AuthStates> {
       isLogin = true;
       navigateReplacement(context: context, route: GalleryScreen());
     }
-    Utiles.token == '' ? isLogin = false : isLogin = true;
   }
 }

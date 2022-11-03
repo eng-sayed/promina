@@ -10,3 +10,9 @@ class GalleryLoading extends GalleryState {}
 class GallerySucsses extends GalleryState {}
 
 class GalleryFail extends GalleryState {}
+
+class AddGalleryLoading extends GalleryState {}
+
+class AddGallerySucsses extends GalleryState {}
+
+class AddGalleryFail extends GalleryState {}
